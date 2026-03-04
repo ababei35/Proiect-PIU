@@ -19,6 +19,7 @@ namespace HomeworkAssignment
             else
             {
                 Console.WriteLine("Ati lucrat prea putine ore pentru a avea un salariu mare!");
+                Console.WriteLine("Ati lucrat prea putine ore pentru a avea un salariu mare!");
             }
             Console.ReadKey();
         }
