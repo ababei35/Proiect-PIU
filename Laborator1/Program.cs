@@ -41,7 +41,7 @@ public class Factura
 
     public void AfiseazaFactura()
     {
-        Console.WriteLine("Factură fiscală:");
+        Console.WriteLine("-----Factură fiscală:");
         Console.WriteLine("Cumpărător: " + NumeCumparator);
         Console.WriteLine("Adresă: " + Adresa);
         Console.WriteLine("Cantitate achiziționată: " + CantitateCumparata + " kg");
