@@ -65,7 +65,6 @@ class Program
 
         string raspuns = "da";
 
-        // Cât timp utilizatorul scrie "da", programul continuă să ceară facturi noi
         while (raspuns.ToLower() == "da")
         {
             Console.Write("Introdu numele cumpărătorului: ");
@@ -81,7 +80,7 @@ class Program
 
             dosarFacturi.Add(facturaNoua);
 
-            Console.Write("\nDorești să mai introduci o factură? (da/nu): ");
+            Console.Write("\nDoresti să mai introduci o factură? (da/nu): ");
             raspuns = Console.ReadLine();
             Console.WriteLine();
         }
