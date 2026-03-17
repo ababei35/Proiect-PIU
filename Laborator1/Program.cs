@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public class ProdusFinit
 {
@@ -54,23 +55,44 @@ class Program
     {
         Console.Write("Introdu numele furajului produs : ");
         string numeProdus = Console.ReadLine();
-
         Console.Write("Introdu cantitatea produsa in kg : ");
         double cantitateProdusa = Convert.ToDouble(Console.ReadLine());
 
         ProdusFinit produsulMeu = new ProdusFinit(numeProdus, cantitateProdusa);
         produsulMeu.AfiseazaRezultat();
 
-        Console.Write("Introdu numele cumpărătorului: ");
-        string numeClient = Console.ReadLine();
+        List<Factura> dosarFacturi = new List<Factura>();
 
-        Console.Write("Introdu adresa cumpărătorului: ");
-        string adresaClient = Console.ReadLine();
+        string raspuns = "da";
 
-        Console.Write("Introdu cantitatea cumpărată în kg: ");
-        double cantitateVanduta = Convert.ToDouble(Console.ReadLine());
+        // Cât timp utilizatorul scrie "da", programul continuă să ceară facturi noi
+        while (raspuns.ToLower() == "da")
+        {
+            Console.Write("Introdu numele cumpărătorului: ");
+            string numeClient = Console.ReadLine();
 
-        Factura facturaNoua = new Factura(numeClient, adresaClient, cantitateVanduta);
-        facturaNoua.AfiseazaFactura();
+            Console.Write("Introdu adresa cumpărătorului: ");
+            string adresaClient = Console.ReadLine();
+
+            Console.Write("Introdu cantitatea cumpărată în kg: ");
+            double cantitateVanduta = Convert.ToDouble(Console.ReadLine());
+
+            Factura facturaNoua = new Factura(numeClient, adresaClient, cantitateVanduta);
+
+            dosarFacturi.Add(facturaNoua);
+
+            Console.Write("\nDorești să mai introduci o factură? (da/nu): ");
+            raspuns = Console.ReadLine();
+            Console.WriteLine();
+        }
+
+        Console.WriteLine("\nBAZA DE DATE: TOATE FACTURILE DE AZI ");
+
+        foreach (Factura f in dosarFacturi)
+        {
+            f.AfiseazaFactura();
+            Console.WriteLine();
+        }
+        Console.ReadLine();
     }
 }
