@@ -60,9 +60,9 @@ class Program
 
         ProdusFinit produsulMeu = new ProdusFinit(numeProdus, cantitateProdusa);
         produsulMeu.AfiseazaRezultat();
+        Console.WriteLine("----------------------------------\n");
 
         List<Factura> dosarFacturi = new List<Factura>();
-
         string raspuns = "da";
 
         while (raspuns.ToLower() == "da")
@@ -76,20 +76,51 @@ class Program
             Console.Write("Introdu cantitatea cumpărată în kg: ");
             double cantitateVanduta = Convert.ToDouble(Console.ReadLine());
 
-            Factura facturaNoua = new Factura(numeClient, adresaClient, cantitateVanduta);
+            if (cantitateVanduta <= produsulMeu.CantitateKg)
+            {
+                produsulMeu.CantitateKg = produsulMeu.CantitateKg - cantitateVanduta;
 
-            dosarFacturi.Add(facturaNoua);
+                Factura facturaNoua = new Factura(numeClient, adresaClient, cantitateVanduta);
+                dosarFacturi.Add(facturaNoua);
 
+                Console.WriteLine("Vânzare reusită! ");
+            }
+            else
+            {
+                Console.WriteLine("Eroare! Nu avem suficient stoc.");
+            }
             Console.Write("\nDoresti să mai introduci o factură? (da/nu): ");
             raspuns = Console.ReadLine();
             Console.WriteLine();
         }
 
-        Console.WriteLine("\nBAZA DE DATE: TOATE FACTURILE DE AZI ");
+        Console.WriteLine("-----CĂUTARE -----");
+        string vreauSaCaut = "da";
 
-        foreach (Factura f in dosarFacturi)
+        while (vreauSaCaut.ToLower() == "da")
         {
-            f.AfiseazaFactura();
+            Console.Write("Introdu numele clientului pe care vrei să-l cauti: ");
+            string numeCautat = Console.ReadLine();
+
+            bool facturaGasita = false;
+
+            Console.WriteLine("\nRezultatele căutării:");
+            foreach (Factura f in dosarFacturi)
+            {
+                if (f.NumeCumparator.ToLower() == numeCautat.ToLower())
+                {
+                    f.AfiseazaFactura();
+                    facturaGasita = true;
+                }
+            }
+
+            if (facturaGasita == false)
+            {
+                Console.WriteLine("Nu s-a găsit nicio factură pentru clientul: " + numeCautat);
+            }
+
+            Console.Write("\nDoresti să cauti alt client? (da/nu): ");
+            vreauSaCaut = Console.ReadLine();
             Console.WriteLine();
         }
         Console.ReadLine();
