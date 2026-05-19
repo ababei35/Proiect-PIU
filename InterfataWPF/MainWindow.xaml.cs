@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 using LibrarieModele;
 
@@ -6,62 +8,78 @@ namespace InterfataWPF
 {
     public partial class MainWindow : Window
     {
-        // 1. Constante pentru limite (Cerinta Lab 7)
         private const int MAX_LUNGIME_NUME = 15;
+        private List<Factura> listaFacturi;
 
         public MainWindow()
         {
             InitializeComponent();
+            IncarcaDate();
+        }
+
+        private void IncarcaDate()
+        {
+            listaFacturi = new List<Factura>
+            {
+                new Factura(1, "Popescu", "Ion", "0711111111", "Suceava", "Porumb", 100),
+                new Factura(2, "Ionescu", "Maria", "0722222222", "Iasi", "Grau", 50)
+            };
+            dgFacturi.ItemsSource = listaFacturi;
         }
 
         private void BtnAdauga_Click(object sender, RoutedEventArgs e)
         {
-            // Apelăm metoda de validare cerută de laborator
             if (!ValideazaDateFactura())
             {
-                return; // Oprim execuția dacă sunt erori
+                return;
             }
 
-            // Dacă ajungem aici, datele sunt corecte. Creăm obiectul!
             double cantitate = double.Parse(txtCantitate.Text.Trim());
-            Factura facturaNoua = new Factura(1, txtNume.Text.Trim(), txtPrenume.Text.Trim(), "-", "-", "Furaj", cantitate);
+            Factura facturaNoua = new Factura(listaFacturi.Count + 1, txtNume.Text.Trim(), txtPrenume.Text.Trim(), "-", "-", "Furaj", cantitate);
 
-            // Afișăm succesul
+            listaFacturi.Add(facturaNoua);
+
+            dgFacturi.ItemsSource = null;
+            dgFacturi.ItemsSource = listaFacturi;
+
             tbMesaj.Foreground = Brushes.Green;
-            tbMesaj.Text = $"Succes! Factură creată pentru {facturaNoua.Nume}.";
+            tbMesaj.Text = "Succes! Factură adăugată în listă.";
             tbMesaj.Visibility = Visibility.Visible;
+
+            txtNume.Clear();
+            txtPrenume.Clear();
+            txtCantitate.Clear();
+            rbFizic.IsChecked = true;
+            cbLivrare.IsChecked = false;
         }
 
-        // Metoda separată de validare (Cerinta Lab 7)
         private bool ValideazaDateFactura()
         {
             bool isValid = true;
             string erori = "";
 
-            // Resetăm culorile marginilor la gri înainte de a verifica
             txtNume.BorderBrush = Brushes.Gray;
             txtPrenume.BorderBrush = Brushes.Gray;
             txtCantitate.BorderBrush = Brushes.Gray;
 
             if (txtNume.Text.Trim().Length == 0 || txtNume.Text.Trim().Length > MAX_LUNGIME_NUME)
             {
-                txtNume.BorderBrush = Brushes.Red; // Evidențiem vizual controlul
-                erori += $"Numele trebuie să aibă între 1 și {MAX_LUNGIME_NUME} caractere.\n";
+                txtNume.BorderBrush = Brushes.Red;
+                erori += "Numele este invalid.\n";
                 isValid = false;
             }
 
             if (txtPrenume.Text.Trim().Length == 0 || txtPrenume.Text.Trim().Length > MAX_LUNGIME_NUME)
             {
                 txtPrenume.BorderBrush = Brushes.Red;
-                erori += $"Prenumele trebuie să aibă între 1 și {MAX_LUNGIME_NUME} caractere.\n";
+                erori += "Prenumele este invalid.\n";
                 isValid = false;
             }
 
-            // Folosim double.TryParse ca în exemplu
             if (!double.TryParse(txtCantitate.Text.Trim(), out double c) || c <= 0)
             {
                 txtCantitate.BorderBrush = Brushes.Red;
-                erori += "Cantitatea trebuie să fie un număr valid (pozitiv).\n";
+                erori += "Cantitatea trebuie să fie pozitivă.\n";
                 isValid = false;
             }
 
@@ -69,27 +87,47 @@ namespace InterfataWPF
             {
                 tbMesaj.Foreground = Brushes.Red;
                 tbMesaj.Text = erori;
-                tbMesaj.Visibility = Visibility.Visible; // Afișăm erorile
+                tbMesaj.Visibility = Visibility.Visible;
             }
 
             return isValid;
         }
 
-        // 2. Metoda pentru butonul Reset (Cerinta Lab 7)
         private void BtnReset_Click(object sender, RoutedEventArgs e)
         {
-            // Curățăm textul
             txtNume.Clear();
             txtPrenume.Clear();
             txtCantitate.Clear();
+            rbFizic.IsChecked = true;
+            cbLivrare.IsChecked = false;
 
-            // Resetăm marginile
             txtNume.BorderBrush = Brushes.Gray;
             txtPrenume.BorderBrush = Brushes.Gray;
             txtCantitate.BorderBrush = Brushes.Gray;
 
-            // Ascundem mesajul
             tbMesaj.Visibility = Visibility.Collapsed;
+        }
+
+        private void BtnCauta_Click(object sender, RoutedEventArgs e)
+        {
+            string textCautat = txtCautare.Text.Trim().ToLower();
+
+            if (string.IsNullOrEmpty(textCautat))
+            {
+                dgFacturi.ItemsSource = listaFacturi;
+                return;
+            }
+
+            var rezultate = listaFacturi.Where(f =>
+                f.Nume.ToLower().Contains(textCautat) ||
+                f.Prenume.ToLower().Contains(textCautat)).ToList();
+
+            dgFacturi.ItemsSource = rezultate;
+
+            if (rezultate.Count == 0)
+            {
+                MessageBox.Show("Niciun rezultat găsit.");
+            }
         }
     }
 }
