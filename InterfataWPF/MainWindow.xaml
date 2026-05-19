@@ -1,28 +1,37 @@
 ﻿<Window x:Class="InterfataWPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Gestiune Furaje - Afișare Factură" Height="350" Width="500"
-        Background="#F4F6F6">
-    <Window.Resources>
-        <Style TargetType="Label">
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Foreground" Value="#2C3E50"/>
-        </Style>
-    </Window.Resources>
+        Title="Gestiune Furaje - Adăugare" Height="350" Width="400">
 
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Detalii Ultima Factură" 
-                   FontFamily="Segoe UI Semibold" 
-                   FontSize="24" 
-                   Foreground="#2980B9" 
-                   Margin="0,0,0,20" 
-                   HorizontalAlignment="Center"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Label x:Name="lblClient" Content="Client: - "/>
-        <Label x:Name="lblProdus" Content="Produs: - "/>
-        <Label x:Name="lblCantitate" Content="Cantitate: - "/>
+        <Label Grid.Row="0" Grid.Column="0" Content="_Nume Client:" Target="{Binding ElementName=txtNume}" FontWeight="Bold" Margin="0,0,10,10"/>
+        <TextBox x:Name="txtNume" Grid.Row="0" Grid.Column="1" Height="25" Margin="0,0,0,10"/>
 
-    </StackPanel>
+        <Label Grid.Row="1" Grid.Column="0" Content="_Prenume Client:" Target="{Binding ElementName=txtPrenume}" FontWeight="Bold" Margin="0,0,10,10"/>
+        <TextBox x:Name="txtPrenume" Grid.Row="1" Grid.Column="1" Height="25" Margin="0,0,0,10"/>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="_Cantitate (kg):" Target="{Binding ElementName=txtCantitate}" FontWeight="Bold" Margin="0,0,10,10"/>
+        <TextBox x:Name="txtCantitate" Grid.Row="2" Grid.Column="1" Height="25" Margin="0,0,0,10"/>
+
+        <TextBlock x:Name="tbMesaj" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
+                   Foreground="Red" FontWeight="Bold" Margin="0,10,0,10" Visibility="Collapsed"/>
+
+        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button Content="Reset" Width="80" Height="30" Margin="0,0,10,0" Click="BtnReset_Click"/>
+            <Button Content="Adaugă" Width="80" Height="30" Click="BtnAdauga_Click"/>
+        </StackPanel>
+    </Grid>
 </Window>
