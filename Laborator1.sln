@@ -9,12 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Laborator1", "Laborator1\La
 		{4E28347E-8297-4360-9DF4-8E4685A1D5DF} = {4E28347E-8297-4360-9DF4-8E4685A1D5DF}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibrarieModele", "LibrarieModele\LibrarieModele.csproj", "{4E28347E-8297-4360-9DF4-8E4685A1D5DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibrarieModele", "LibrarieModele\LibrarieModele.csproj", "{4E28347E-8297-4360-9DF4-8E4685A1D5DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NivelStocareData", "NivelStocareData\NivelStocareData.csproj", "{0FC82B90-1B62-4717-A239-46010668B868}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NivelStocareData", "NivelStocareData\NivelStocareData.csproj", "{0FC82B90-1B62-4717-A239-46010668B868}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4E28347E-8297-4360-9DF4-8E4685A1D5DF} = {4E28347E-8297-4360-9DF4-8E4685A1D5DF}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterfataWPF", "InterfataWPF\InterfataWPF.csproj", "{B0590036-A7D2-46F3-8342-A2F112810B85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +36,10 @@ Global
 		{0FC82B90-1B62-4717-A239-46010668B868}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FC82B90-1B62-4717-A239-46010668B868}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FC82B90-1B62-4717-A239-46010668B868}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0590036-A7D2-46F3-8342-A2F112810B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0590036-A7D2-46F3-8342-A2F112810B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0590036-A7D2-46F3-8342-A2F112810B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0590036-A7D2-46F3-8342-A2F112810B85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
