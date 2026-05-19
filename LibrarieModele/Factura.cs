@@ -17,6 +17,10 @@ namespace LibrarieModele
         public string Adresa { get; set; }
         public string ProdusCumparat { get; set; }
         public double CantitateCumparata { get; set; }
+        public DateTime DataFacturii { get; set; }
+        public string MetodaPlata { get; set; }
+        public string TipClient { get; set; }
+        public string Livrare { get; set; }
 
         public Factura(int id, string nume, string prenume, string telefon, string adresa, string produs, double cantitate)
         {
