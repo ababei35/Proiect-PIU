@@ -35,19 +35,39 @@ namespace LibrarieModele
 
         public Factura(string linieFisier)
         {
-            string[] date = linieFisier.Split(SEPARATOR_FISIER);
-            IdFactura = Convert.ToInt32(date[0]);
-            Nume = date[1];
-            Prenume = date[2];
-            Telefon = date[3];
-            Adresa = date[4];
-            ProdusCumparat = date[5];
-            CantitateCumparata = Convert.ToDouble(date[6]);
+            string[] dateFisier = linieFisier.Split(';');
+
+            IdFactura = int.Parse(dateFisier[0]);
+            Nume = dateFisier[1];
+            Prenume = dateFisier[2];
+            Telefon = dateFisier[3];
+            Adresa = dateFisier[4];
+            ProdusCumparat = dateFisier[5];
+            CantitateCumparata = double.Parse(dateFisier[6]);
+
+            if (dateFisier.Length >= 11)
+            {
+                if (DateTime.TryParse(dateFisier[7], out DateTime dataCitita))
+                    DataFacturii = dataCitita;
+                else
+                    DataFacturii = DateTime.Today;
+
+                MetodaPlata = dateFisier[8];
+                TipClient = dateFisier[9];
+                Livrare = dateFisier[10];
+            }
+            else
+            {
+                DataFacturii = DateTime.Today;
+                MetodaPlata = "Nespecificat";
+                TipClient = "Fizică";
+                Livrare = "Nu";
+            }
         }
 
         public string ConversieLaSirPentruFisier()
         {
-            return $"{IdFactura}{SEPARATOR_FISIER}{Nume}{SEPARATOR_FISIER}{Prenume}{SEPARATOR_FISIER}{Telefon}{SEPARATOR_FISIER}{Adresa}{SEPARATOR_FISIER}{ProdusCumparat}{SEPARATOR_FISIER}{CantitateCumparata}";
+            return $"{IdFactura};{Nume};{Prenume};{Telefon};{Adresa};{ProdusCumparat};{CantitateCumparata};{DataFacturii.ToString("dd/MM/yyyy")};{MetodaPlata};{TipClient};{Livrare}";
         }
 
         public string Info()

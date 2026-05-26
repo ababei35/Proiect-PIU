@@ -78,5 +78,23 @@ namespace NivelStocareData
             }
             return gasit;
         }
+        public void StergeFactura(int idFactura)
+        {
+            List<Factura> facturi = GetFacturi();
+            Factura deSters = facturi.FirstOrDefault(f => f.IdFactura == idFactura);
+
+            if (deSters != null)
+            {
+                facturi.Remove(deSters);
+
+                using (StreamWriter sw = new StreamWriter(numeFisier, false))
+                {
+                    foreach (Factura f in facturi)
+                    {
+                        sw.WriteLine(f.ConversieLaSirPentruFisier());
+                    }
+                }
+            }
+        }
     }
 }

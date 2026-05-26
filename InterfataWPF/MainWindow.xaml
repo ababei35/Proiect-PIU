@@ -1,7 +1,7 @@
 ﻿<Window x:Class="InterfataWPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Gestiune Furaje - Panou Central" Height="750" Width="950"
+        Title="Gestiune Furaje - Panou Central (MVVM)" Height="750" Width="950"
         MinWidth="800" MinHeight="650">
     <Grid Margin="15">
         <Grid.ColumnDefinitions>
@@ -10,43 +10,43 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Margin="0,0,15,0">
-            <Label Content="_Nume Client:" Target="{Binding ElementName=txtNume}" FontWeight="Bold" Padding="0" Margin="0,0,0,5"/>
-            <TextBox x:Name="txtNume" Height="25" Margin="0,0,0,5" VerticalContentAlignment="Center"/>
+            <Label Content="_Nume Client:" FontWeight="Bold" Padding="0" Margin="0,0,0,5"/>
+            <TextBox Text="{Binding Nume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25" Margin="0,0,0,5" VerticalContentAlignment="Center"/>
 
-            <Label Content="_Prenume Client:" Target="{Binding ElementName=txtPrenume}" FontWeight="Bold" Padding="0" Margin="0,0,0,5"/>
-            <TextBox x:Name="txtPrenume" Height="25" Margin="0,0,0,5" VerticalContentAlignment="Center"/>
+            <Label Content="_Prenume Client:" FontWeight="Bold" Padding="0" Margin="0,0,0,5"/>
+            <TextBox Text="{Binding Prenume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25" Margin="0,0,0,5" VerticalContentAlignment="Center"/>
 
-            <Label Content="_Telefon:" Target="{Binding ElementName=txtTelefon}" FontWeight="Bold" Padding="0" Margin="0,0,0,5"/>
-            <TextBox x:Name="txtTelefon" Height="25" Margin="0,0,0,5" VerticalContentAlignment="Center"/>
+            <Label Content="_Telefon:" FontWeight="Bold" Padding="0" Margin="0,0,0,5"/>
+            <TextBox Text="{Binding Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25" Margin="0,0,0,5" VerticalContentAlignment="Center"/>
 
-            <Label Content="_Adresa:" Target="{Binding ElementName=txtAdresa}" FontWeight="Bold" Padding="0" Margin="0,0,0,5"/>
-            <TextBox x:Name="txtAdresa" Height="25" Margin="0,0,0,5" VerticalContentAlignment="Center"/>
+            <Label Content="_Adresa:" FontWeight="Bold" Padding="0" Margin="0,0,0,5"/>
+            <TextBox Text="{Binding Adresa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25" Margin="0,0,0,5" VerticalContentAlignment="Center"/>
 
-            <Label Content="_Cantitate (kg):" Target="{Binding ElementName=txtCantitate}" FontWeight="Bold" Padding="0" Margin="0,0,0,5"/>
-            <TextBox x:Name="txtCantitate" Height="25" Margin="0,0,0,10" VerticalContentAlignment="Center"/>
+            <Label Content="_Cantitate (kg):" FontWeight="Bold" Padding="0" Margin="0,0,0,5"/>
+            <TextBox Text="{Binding Cantitate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25" Margin="0,0,0,10" VerticalContentAlignment="Center"/>
 
             <Label Content="Tip Furaj:" FontWeight="Bold" Padding="0" Margin="0,0,0,5"/>
-            <ComboBox x:Name="cmbProdus" Height="25" Margin="0,0,0,10"/>
+            <ComboBox ItemsSource="{Binding Produse}" SelectedItem="{Binding ProdusSelectat, Mode=TwoWay}" Height="25" Margin="0,0,0,10"/>
 
             <Label Content="Data Facturii:" FontWeight="Bold" Padding="0" Margin="0,0,0,5"/>
-            <DatePicker x:Name="dpDataFacturii" Height="25" Margin="0,0,0,10"/>
+            <DatePicker SelectedDate="{Binding DataFacturii, Mode=TwoWay}" Height="25" Margin="0,0,0,10"/>
 
             <Label Content="Metoda Plată:" FontWeight="Bold" Padding="0" Margin="0,0,0,5"/>
-            <ListBox x:Name="lstPlata" Height="60" Margin="0,0,0,10" SelectionMode="Single"/>
+            <ListBox ItemsSource="{Binding MetodePlata}" SelectedItem="{Binding MetodaPlataSelectata, Mode=TwoWay}" Height="60" Margin="0,0,0,10" SelectionMode="Single"/>
 
             <Label Content="Tip Client:" FontWeight="Bold" Padding="0" Margin="0,0,0,5"/>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <RadioButton x:Name="rbFizic" Content="Persoană Fizică" GroupName="TipClient" IsChecked="True" Margin="0,0,15,0"/>
-                <RadioButton x:Name="rbJuridic" Content="Persoană Juridică" GroupName="TipClient"/>
+                <RadioButton Content="Persoană Fizică" IsChecked="{Binding IsPersoanaFizica, Mode=TwoWay}" Margin="0,0,15,0"/>
+                <RadioButton Content="Persoană Juridică" IsChecked="{Binding IsPersoanaJuridica, Mode=OneWay}"/>
             </StackPanel>
 
-            <CheckBox x:Name="cbLivrare" Content="Livrare la domiciliu" FontWeight="Bold" Margin="0,0,0,10"/>
+            <CheckBox Content="Livrare la domiciliu" IsChecked="{Binding IsLivrare, Mode=TwoWay}" FontWeight="Bold" Margin="0,0,0,10"/>
 
-            <TextBlock x:Name="tbMesaj" Foreground="Red" FontWeight="Bold" Margin="0,0,0,10" TextWrapping="Wrap" Visibility="Collapsed"/>
+            <TextBlock Text="{Binding MesajText}" Foreground="{Binding MesajCuloare}" FontWeight="Bold" Margin="0,0,0,10" TextWrapping="Wrap"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Reset" Width="80" Height="30" Margin="0,0,10,0" Click="BtnReset_Click"/>
-                <Button Content="Adaugă" Width="80" Height="30" Click="BtnAdauga_Click"/>
+                <Button Content="Reset" Command="{Binding ResetCommand}" Width="80" Height="30" Margin="0,0,10,0"/>
+                <Button Content="Adaugă" Command="{Binding AdaugaCommand}" Width="80" Height="30"/>
             </StackPanel>
         </StackPanel>
 
@@ -56,23 +56,29 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            
+
             <Grid Grid.Row="0" Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="txtCautare" Grid.Column="0" Height="25" VerticalContentAlignment="Center" Margin="0,0,10,0"/>
-                <Button x:Name="btnCauta" Grid.Column="1" Content="Caută" Width="80" Height="25" Click="BtnCauta_Click" Margin="0,0,15,0"/>
-                <Label Grid.Column="2" Content="{Binding ElementName=dgFacturi, Path=Items.Count, StringFormat='Total facturi: {0}'}" FontWeight="Bold" VerticalAlignment="Center"/>
+
+                <ComboBox ItemsSource="{Binding CriteriiCautare}" SelectedItem="{Binding CriteriuSelectat, Mode=TwoWay}" Grid.Column="0" Width="100" Height="25" Margin="0,0,10,0" VerticalContentAlignment="Center"/>
+
+                <TextBox Text="{Binding TextCautare, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Height="25" VerticalContentAlignment="Center" Margin="0,0,10,0"/>
+
+                <Button Content="Caută" Command="{Binding CautaCommand}" Grid.Column="2" Width="80" Height="25" Margin="0,0,15,0"/>
+
+                <Label Grid.Column="3" Content="{Binding ElementName=dgFacturi, Path=Items.Count, StringFormat='Total facturi: {0}'}" FontWeight="Bold" VerticalAlignment="Center"/>
             </Grid>
 
-            <DataGrid x:Name="dgFacturi" Grid.Row="1" AutoGenerateColumns="True" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DgFacturi_SelectionChanged"/>
+            <DataGrid x:Name="dgFacturi" Grid.Row="1" ItemsSource="{Binding ListaFacturi}" SelectedItem="{Binding FacturaSelectata, Mode=TwoWay}" AutoGenerateColumns="True" IsReadOnly="True" HeadersVisibility="Column"/>
 
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-                <Button Content="Modifică" Width="100" Height="30" Margin="0,0,10,0" Click="BtnModifica_Click"/>
-                <Button Content="Șterge" Width="100" Height="30" Background="#C0392B" Foreground="White" FontWeight="Bold" Click="BtnSterge_Click"/>
+                <Button Content="Modifică" Command="{Binding ModificaCommand}" Width="100" Height="30" Margin="0,0,10,0"/>
+                <Button Content="Șterge" Command="{Binding StergeCommand}" Width="100" Height="30" Background="#C0392B" Foreground="White" FontWeight="Bold"/>
             </StackPanel>
         </Grid>
     </Grid>

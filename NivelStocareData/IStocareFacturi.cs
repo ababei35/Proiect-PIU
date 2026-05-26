@@ -14,5 +14,6 @@ namespace NivelStocareData
         Factura GetFacturaDupaNumeComplet(string nume, string prenume);
         List<Factura> GetFacturiDupaProdus(string numeProdus);
         bool ModificaFactura(Factura facturaActualizata);
+        void StergeFactura(int idFactura);
     }
 }
