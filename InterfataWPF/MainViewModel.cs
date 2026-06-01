@@ -77,7 +77,7 @@ namespace InterfataWPF
         public ICommand ModificaCommand { get; }
         public ICommand StergeCommand { get; }
         public ICommand ResetCommand { get; }
-
+        public ICommand RaportMaterieCommand { get; }
         public ICommand CautaCommand { get; }
 
         public MainViewModel()
@@ -94,6 +94,7 @@ namespace InterfataWPF
             StergeCommand = new RelayCommand(StergeFactura);
             ResetCommand = new RelayCommand(ResetareFormular);
             CautaCommand = new RelayCommand(CautaFactura);
+            RaportMaterieCommand = new RelayCommand(GenerareRaport);
             CriteriiCautare = new ObservableCollection<string>
             {
                 "ID", "Nume", "Prenume", "Telefon", "Adresa",
@@ -157,8 +158,6 @@ namespace InterfataWPF
             FacturaSelectata.Livrare = IsLivrare ? "Da" : "Nu";
 
             adminFacturi.ModificaFactura(FacturaSelectata);
-
-            // Truc pentru reîmprospătarea listei în UI
             var temp = ListaFacturi.ToList();
             ListaFacturi.Clear();
             foreach (var item in temp) ListaFacturi.Add(item);
@@ -214,6 +213,33 @@ namespace InterfataWPF
         {
             MesajText = mesaj;
             MesajCuloare = culoare;
+        }
+        private void GenerareRaport(object obj)
+        {
+            var facturi = adminFacturi.GetFacturi();
+
+            double totalPasari = facturi.Where(f => f.ProdusCumparat == "Pasari").Sum(f => f.CantitateCumparata);
+            double totalPorcine = facturi.Where(f => f.ProdusCumparat == "Porcine").Sum(f => f.CantitateCumparata);
+            double totalBovine = facturi.Where(f => f.ProdusCumparat == "Bovine").Sum(f => f.CantitateCumparata);
+            double totalPesti = facturi.Where(f => f.ProdusCumparat == "Pesti").Sum(f => f.CantitateCumparata);
+
+            string raport = "RAPORT ESTIMATIV - MATERIE PRIMĂ UTILIZATĂ\n\n";
+
+            raport += $"PĂSĂRI: {totalPasari} kg furaj vândut total\n";
+            raport += $"   ➔ Materie estimată: {Math.Round(totalPasari * 0.8, 2)} kg Cereale | {Math.Round(totalPasari * 0.2, 2)} kg Vitamine/Calciu\n\n";
+
+            raport += $"PORCINE: {totalPorcine} kg furaj vândut total\n";
+            raport += $"   ➔ Materie estimată: {Math.Round(totalPorcine * 0.75, 2)} kg Cereale | {Math.Round(totalPorcine * 0.25, 2)} kg Șrot/Proteine\n\n";
+
+            raport += $"BOVINE: {totalBovine} kg furaj vândut total\n";
+            raport += $"   ➔ Materie estimată: {Math.Round(totalBovine * 0.85, 2)} kg Cereale | {Math.Round(totalBovine * 0.15, 2)} kg Minerale\n\n";
+
+            raport += $"PEȘTI: {totalPesti} kg furaj vândut total\n";
+            raport += $"   ➔ Materie estimată: {Math.Round(totalPesti * 0.6, 2)} kg Cereale | {Math.Round(totalPesti * 0.4, 2)} kg Făină de pește\n\n";
+
+            raport += "Notă: Aceste valori pregătesc viitorul Modul de Rețetare și Scădere Automată din Silozuri.";
+
+            System.Windows.MessageBox.Show(raport, "Raport Consum Fabrică", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.None);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -285,5 +311,6 @@ namespace InterfataWPF
                 MesajText = "";
             }
         }
+
     }
 }
